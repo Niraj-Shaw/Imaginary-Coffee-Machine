@@ -1,6 +1,7 @@
 ﻿using CoffeeMachineResponse.Interfaces;
 using CoffeeMachineResponse.Models;
 using CoffeeMachineResponse.CustomExceptionsFilter;
+using CoffeeMachineResponse.References;
 using System;
 
 namespace CoffeeMachineResponse.Repositories
@@ -22,8 +23,13 @@ namespace CoffeeMachineResponse.Repositories
             }
             else
             {
+                Weather weather = new Weather();
+                double tempC = weather.GetTemperature().Result;
                 MachineResponse = new MachineResponse();
-                MachineResponse.Message = "Your piping hot coffee is ready";
+                if (tempC > 30)
+                    MachineResponse.Message = String.Format("Your refreshing iced coffee is ready");
+                else
+                    MachineResponse.Message = String.Format("Your piping hot coffee is ready");
                 MachineResponse.Prepared = DateTime.Now;
             }
             return MachineResponse;
